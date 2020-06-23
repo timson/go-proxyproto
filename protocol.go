@@ -162,6 +162,17 @@ func (p *Conn) SetWriteDeadline(t time.Time) error {
 	return p.conn.SetWriteDeadline(t)
 }
 
+// SetNoDelay wraps original conn.SetNoDelay
+func (p *Conn) SetNoDelay(value bool) error {
+	return p.conn.(*net.TCPConn).SetNoDelay(value)
+}
+
+// Return header
+func (p *Conn) Header() *Header {
+	return p.header
+}
+
+
 func (p *Conn) readHeader() error {
 	header, err := Read(p.bufReader)
 	// For the purpose of this wrapper shamefully stolen from armon/go-proxyproto
